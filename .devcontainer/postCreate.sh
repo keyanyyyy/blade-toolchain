@@ -5,8 +5,6 @@ echo "[1/6] Setup mamba (faster conda)..."
 conda install -n base -c conda-forge -y mamba
 
 echo "[2/6] Create conda env: blade (FEniCS 2019.1.0 + common deps)..."
-# 说明：ANBA4 文档里就是推荐 conda + fenics(2019.1.0) 这一套思路
-# 如果你后续发现 SONATA 需要额外包，直接在下面这行继续加即可。
 mamba create -n blade -c conda-forge -y \
   python=3.9 \
   fenics=2019.1.0 \
@@ -15,7 +13,6 @@ mamba create -n blade -c conda-forge -y \
   sympy
 
 echo "[3/6] Activate env..."
-# shellcheck disable=SC1091
 source /opt/conda/etc/profile.d/conda.sh
 conda activate blade
 python -m pip install -U pip setuptools wheel
@@ -29,8 +26,6 @@ python -m pip install -e external/anba4
 
 echo "[5/6] Clone and install SONATA..."
 if [ ! -d "external/SONATA" ]; then
-  # 优先用新组织（WISDEM 已迁移到 NLRWindSystems 的迹象很明显）
-  # 如果你网络/权限导致失败，下面 fallback 会再试一次旧路径。
   git clone https://github.com/NLRWindSystems/SONATA.git external/SONATA \
     || git clone https://github.com/WISDEM/SONATA.git external/SONATA
 fi
